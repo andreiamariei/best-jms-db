@@ -20,16 +20,23 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import com.springsource.open.foo.TransactionalMessageListenerContainer;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
 public class AsynchronousMessageTriggerAndRollbackTests  extends AbstractAsynchronousMessageTriggerTests {
 
+	@Autowired
+	TransactionalMessageListenerContainer container;
 
 	@Test
-	public void testBusinessFailure() {
+	public void testBusinessFailure() throws InterruptedException {
 		jmsTemplate.convertAndSend("async", "foo");
 		jmsTemplate.convertAndSend("async", "bar.fail");
+		Thread.sleep(100);
+		container.shutdown();
+		Thread.sleep(1000);
 	}
 
 	@Override

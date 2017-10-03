@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jms="http://www.springframework.org/schema/jms"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	   xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jms="http://www.springframework.org/schema/jms"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-2.5.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
 	<import resource="classpath:/META-INF/spring/data-source-context.xml" />
 	
@@ -14,7 +12,7 @@
 		<aop:include name="failureSimulator"/>
 	</aop:aspectj-autoproxy>
 	
-	<jms:listener-container acknowledge="transacted">
+	<jms:listener-container container-class="com.springsource.open.foo.TransactionalMessageListenerContainer">
 		<!-- Use a different queue for the async samples than the sync ones -->
 		<jms:listener destination="async" ref="fooHandler" method="handle"/>
 	</jms:listener-container>

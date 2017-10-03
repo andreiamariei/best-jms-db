@@ -1,17 +1,14 @@
 package com.springsource.open.foo;
 
-import static org.junit.Assert.assertTrue;
-
-import javax.jms.JMSException;
-import javax.jms.Session;
-
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.jms.connection.SessionProxy;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.SessionCallback;
+
+import javax.jms.JMSException;
+import javax.jms.Session;
 
 @Aspect
 public class FailureSimulator {
@@ -35,9 +32,10 @@ public class FailureSimulator {
 		jmsTemplate.execute(new SessionCallback() {
 			public Object doInJms(Session session) throws JMSException {
 				try {
-					assertTrue("Not a SessionProxy - wrong spring version?",
-							session instanceof SessionProxy);
-					((SessionProxy) session).getTargetSession().rollback();
+//					assertTrue("Not a SessionProxy - wrong spring version?",
+//							session instanceof SessionProxy);
+//					((SessionProxy) session).getTargetSession().rollback();
+					session.close();
 				} catch (JMSException e) {
 					throw e;
 				} catch (Exception e) {

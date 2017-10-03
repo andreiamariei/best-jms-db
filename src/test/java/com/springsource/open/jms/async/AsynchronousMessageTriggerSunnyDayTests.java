@@ -28,7 +28,6 @@ public class AsynchronousMessageTriggerSunnyDayTests extends AbstractAsynchronou
 	@Test
 	public void testCleanData() throws InterruptedException {
 		jmsTemplate.convertAndSend("async", "foo.next");
-		Thread.sleep(1100);
 	}
 
 	@Override
